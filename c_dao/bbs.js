@@ -8,9 +8,9 @@ exports.create = function(bbs, callback){
 	mongo.connect(dburl, function(error, db){
 		db.collection(table).insert(bbs,function(error,inserted){
 			if(error){
-				callback(error);
+				callback(400);
 			}else{
-				callback("ok");
+				callback(200);
 			}
 			db.close();
 		});

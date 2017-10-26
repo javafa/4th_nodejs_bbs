@@ -10,12 +10,23 @@ exports.process = function(request, response){
 		if(method == "get"){
 			var query = qs.parse(url.query);
 			bbs.read(request, response, query);
-		}else if(method == "post"){
-			bbs.create(request, response);
-		}else if(method == "put"){
-			bbs.update(request, response);
-		}else if(method == "delete"){
-			bbs.delete(request, response);
+		}else{
+			// get 이외의 method는 body 데이터를 가져온다
+			var body = "";
+			request.on("data", function(data){
+				body += data;
+			});
+			// 데이터 로딩이 완료되면 각 method로 분기
+			request.on("end", function(){
+				var bbs_body = JSON.parse(body);
+				if(method == "post"){
+					bbs.create(request, response, bbs_body);
+				}else if(method == "put"){
+					bbs.update(request, response, bbs_body);
+				}else if(method == "delete"){
+					bbs.delete(request, response, bbs_body);
+				}
+			});
 		}
 	}else{
 

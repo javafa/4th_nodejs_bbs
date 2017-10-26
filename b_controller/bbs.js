@@ -1,4 +1,4 @@
-var bbs = require("../c_dao/bbs")
+var dao = require("../c_dao/bbs")
 
 exports.read = function(request, response, search){
 	var query = {};
@@ -11,21 +11,32 @@ exports.read = function(request, response, search){
 
 	console.log(query);
 
-	bbs.read(query, function(dataset){
+	dao.read(query, function(dataset){
 		console.log(dataset);
-
-		response.end("");
+		var result = {
+			code : 200,
+			msg : "정상처리",
+			data : dataset
+		};
+		response.end(JSON.stringify(result));
 	});
 };
 
-exports.create = function(request, response){
+exports.create = function(request, response, bbs){
+	dao.create(bbs, function(result_code){
+		var result = {
+			code : result_code,
+			msg : "입력완료"
+		};
+
+		response.end(JSON.stringify(result));
+	});
+};
+
+exports.update = function(request, response, bbs){
 
 };
 
-exports.update = function(request, response){
-
-};
-
-exports.delete = function(request, response){
+exports.delete = function(request, response, bbs){
 
 };
