@@ -5,8 +5,8 @@ exports.read = function(request, response, search){
 	if(search.type === "all"){
 		query = {};
 	}else if(search.type === "no"){
-		query = {no : -1};
-		query.no = parseInt(search.no);
+		query = {_id : -1};
+		query._is = ObjectId(search._id);
 	}
 
 	console.log(query);
