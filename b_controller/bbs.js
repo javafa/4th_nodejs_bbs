@@ -3,7 +3,7 @@ var dao = require("../c_dao/bbs")
 exports.read = function(request, response, search){
 	var query = {};
 	if(search.type === "all"){
-		query = {};
+		query = {page : parseInt(search.page)};
 	}else if(search.type === "no"){
 		query = {_id : -1};
 		query._is = ObjectId(search._id);
